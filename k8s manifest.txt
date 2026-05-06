@@ -1,0 +1,116 @@
+************ Pods manifest **************
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
+
+*************** pods with label **************
+
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: mypod
+  labels:                                                   
+    env: development
+    class: pods
+spec:
+    containers:
+       - name: c00
+         image: ubuntu
+         command: ["/bin/bash", "-c", "while true; do echo Hello-SUMEET; sleep 5 ; done"]
+
+***************************************************************************
+NODE SELECTOR EXAMPLE
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: nodelabels
+  labels:
+    env: development
+spec:
+    containers:
+       - name: c00
+         image: ubuntu
+         command: ["/bin/bash", "-c", "while true; do echo Hello-SUMEET; sleep 5 ; done"]
+    nodeSelector:                                         
+       hardware: t2-medium
+
+************* replication controller *****************
+
+EXAMPLE OF REPLICATION CONTROLLER
+
+kind: ReplicationController               
+apiVersion: v1
+metadata:
+  name: myreplica
+spec:
+  replicas: 2            
+  selector:        
+    myname: Sumeet                             
+  template:                
+    metadata:
+      name: testpod6
+      labels:            
+        myname: Sumeet
+    spec:
+     containers:
+       - name: c00
+         image: ubuntu
+         command: ["/bin/bash", "-c", "while true; do echo Hello-SUMEET; sleep 5 ; done"]
+
+*************** Replica set ******************
+
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replicaset
+spec:
+  replicas: 5
+  selector: 
+    matchLabels:
+      myname: sumeet
+  template:
+    metadata:
+      name: tomcat-nginx-2
+      labels:
+        myname: sumeet
+    spec:
+      containers:
+        - name: tomcat
+          image: kavana147/tomcat:2.0
+
+******************* Deployment **************************
+
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+   name: mydeployments
+spec:
+   replicas: 2
+   selector:
+    matchLabels:
+     name: deployment
+   template:
+     metadata:
+       name: testpod
+       labels:
+         name: deployment
+     spec:
+      containers:
+        - name: c00
+          image: ubuntu
+          command: ["/bin/bash", "-c", "while true; do echo HELLO SUMEET; sleep 5; done"]
+
+
+
+
